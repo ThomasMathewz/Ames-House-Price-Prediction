@@ -25,41 +25,29 @@ These characteristics make the dataset appropriate for a multi-stage modelling p
 
 The first phase focused on preparing the dataset using widely adopted preprocessing techniques:
 
-Preprocessing Steps
+__Preprocessing Steps__
 
-Median imputation for numerical features
+* Median imputation for numerical features
+* Mode imputation for categorical features
+* Standard scaling for continuous variables
+* One-hot encoding for categorical variables
+* Construction of a ColumnTransformer to ensure pipeline consistency
+* Train-test split for proper evaluation
 
-Mode imputation for categorical features
 
-Standard scaling for continuous variables
+__Models Evaluated__
 
-One-hot encoding for categorical variables
+* Linear Regression
+* Ridge Regression
+* Lasso Regression
+* Random Forest Regression
+* Gradient Boosting Regression
+* XGBoost
+* LightGBM
+* CatBoost
+* Stacking Ensemble
 
-Construction of a ColumnTransformer to ensure pipeline consistency
-
-Train-test split for proper evaluation
-
-Models Evaluated
-
-Linear Regression
-
-Ridge Regression
-
-Lasso Regression
-
-Random Forest Regression
-
-Gradient Boosting Regression
-
-XGBoost
-
-LightGBM
-
-CatBoost
-
-Stacking Ensemble
-
-Findings
+__Findings__
 
 Tree-based boosting models (Gradient Boosting, XGBoost, LightGBM, CatBoost) substantially outperformed linear models, reflecting the dataset's nonlinear feature interactions.
 The Stacking Ensemble performed competitively but did not consistently outperform the top boosting models.
@@ -68,22 +56,19 @@ The Stacking Ensemble performed competitively but did not consistently outperfor
 
 To improve predictive performance, advanced preprocessing and engineered features were introduced:
 
-Key Enhancements
+__Key Enhancements__
 
-Removal of highly correlated variables (to reduce multicollinearity)
+* Removal of highly correlated variables (to reduce multicollinearity)
+* Engineering domain-informed features including:
+  * Age of the house at time of sale
+  * Recency of renovation
+  * Living area per room
+  * Total functional bathrooms
+  * Interaction terms between key variables
+* Improved handling of missing values based on domain relevance
+* Consistent encoding and scaling across all phases
 
-Engineering domain-informed features including:
-• Age of the house at time of sale
-• Recency of renovation
-• Living area per room
-• Total functional bathrooms
-• Interaction terms between key variables
-
-Improved handling of missing values based on domain relevance
-
-Consistent encoding and scaling across all phases
-
-Impact
+__Impact__
 
 These enhancements improved data quality, reduced noise, and increased the ability of models to learn meaningful relationships.
 
@@ -92,19 +77,14 @@ These enhancements improved data quality, reduced noise, and increased the abili
 RandomizedSearchCV was used to optimise several high-performing models.
 The following hyperparameters were tuned:
 
-Learning rate
+* Learning rate
+* Number of estimators
+* Maximum tree depth
+* Regularisation strengths (L1, L2)
+* Subsample ratios
+* Column sample frequencies
 
-Number of estimators
-
-Maximum tree depth
-
-Regularisation strengths (L1, L2)
-
-Subsample ratios
-
-Column sample frequencies
-
-Outcome
+__Outcome__
 
 Hyperparameter tuning reduced overfitting and improved Cross-Validation RMSE across most boosting models.
 Optimised versions of XGBoost, Gradient Boosting, LightGBM, and CatBoost performed significantly better than their default configurations.
@@ -113,44 +93,35 @@ Optimised versions of XGBoost, Gradient Boosting, LightGBM, and CatBoost perform
 
 To examine the effect of deep learning on structured data, TabNet was incorporated.
 
-TabNet Pipeline
+__TabNet Pipeline__
 
-Preparing dense float32 arrays from preprocessed outputs
+* Preparing dense float32 arrays from preprocessed outputs
+* Unsupervised pretraining using TabNetPretrainer
+* Supervised fine-tuning using TabNetRegressor
 
-Unsupervised pretraining using TabNetPretrainer
-
-Supervised fine-tuning using TabNetRegressor
-
-Findings
+__Findings__
 
 Although TabNet was able to extract useful representations and perform competitively, it did not outperform the optimised boosting models.
 This result aligns with current research showing that boosting algorithms still generally excel over deep learning in small-to-medium sized tabular datasets.
 
 ## 7. Model Evaluation and Comparison
 
-Model performance was compared using:
+__Model performance was compared using:__
 
-Cross-validation RMSE
+* Cross-validation RMSE
+* Holdout test RMSE
+* R² scores
+* Error distribution plots
 
-Holdout test RMSE
+__Best Performing Models__
 
-R² scores
+* XGBoost
+* Gradient Boosting
+* CatBoost
+* Stacking Ensemble
+* LightGBM
 
-Error distribution plots
-
-Best Performing Models
-
-XGBoost
-
-Gradient Boosting
-
-CatBoost
-
-Stacking Ensemble
-
-LightGBM
-
-Summary
+__Summary__
 
 XGBoost consistently achieved the best combination of cross-validation RMSE, holdout RMSE, and robustness across preprocessing variations.
 Tree-based models clearly outperformed linear and deep learning models.
@@ -159,20 +130,16 @@ Tree-based models clearly outperformed linear and deep learning models.
 
 Based on experimental results, the recommended model for deployment is:
 
-XGBoost
-Reasons for Recommendation
+__XGBoost__
 
-Lowest holdout RMSE among all models
+__Reasons for Recommendation__
 
-Strong generalisation ability
-
-Robust to nonlinear feature interactions
-
-High performance even with minimal preprocessing variation
-
-Fast inference and suitable for real-time use
-
-Consistent performance across multiple data splits and feature sets
+* Lowest holdout RMSE among all models
+* Strong generalisation ability
+* Robust to nonlinear feature interactions
+* High performance even with minimal preprocessing variation
+* Fast inference and suitable for real-time use
+* Consistent performance across multiple data splits and feature sets
 
 The Stacking Ensemble showed competitive results but did not consistently surpass XGBoost, and it introduced additional complexity.
 TabNet did not achieve comparable accuracy and therefore is not recommended for deployment.
@@ -182,13 +149,10 @@ TabNet did not achieve comparable accuracy and therefore is not recommended for 
 This study successfully developed an end-to-end modelling pipeline for predicting house prices using structured tabular data.
 It demonstrated the importance of:
 
-Rigorous preprocessing
-
-Domain-informed feature engineering
-
-Proper hyperparameter optimisation
-
-Comprehensive model comparison
+* Rigorous preprocessing
+* Domain-informed feature engineering
+* Proper hyperparameter optimisation
+* Comprehensive model comparison
 
 Boosting algorithms proved superior to both linear models and deep learning approaches, with XGBoost emerging as the most accurate and dependable model.
 

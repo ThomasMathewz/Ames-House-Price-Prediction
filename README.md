@@ -1,5 +1,5 @@
 ---
-# HOUSE PRICE PREDICTION
+# AMES HOUSE PRICE PREDICTION
 ---
 ## 1. Introduction
 
